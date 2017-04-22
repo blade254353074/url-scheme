@@ -14,6 +14,7 @@ module.exports = {
       enforce: 'pre',
       test: /\.js$/,
       loader: 'standard-loader',
+      options: { parser: 'babel-eslint' },
       exclude
     }, {
       test: /\.js$/,

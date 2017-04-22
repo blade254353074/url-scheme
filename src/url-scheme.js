@@ -4,6 +4,12 @@ let count = +new Date()
 function noop () {}
 
 class UrlScheme {
+  static defaults = {
+    scheme: null,
+    timeout: 60000
+  };
+  static interceptors = {};
+
   constructor ({
     url, query,
     param = 'callback', prefix = '__jsonp',
@@ -83,12 +89,5 @@ class UrlScheme {
     return promise
   }
 }
-
-UrlScheme.defaults = {
-  scheme: null,
-  timeout: 60000
-}
-
-UrlScheme.interceptors = {}
 
 export default UrlScheme
