@@ -6,9 +6,9 @@ A promisified url schemes creator for communication between webview & native
 
 ```javascript
 new UrlScheme({
-  url: 'BBCODE://foo/bar?baz=true',
+  url: 'CUSTOMSCHEME://foo/bar?baz=true',
   query: {
-    biz: '2333',
+    biz: 'String',
     boo: [1, 2, 3]
   },
   param: 'biz_callback',
