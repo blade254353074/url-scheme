@@ -2,24 +2,67 @@
 
 A promisified url schemes creator for communication between webview & native
 
+# Install
+
+```bash
+npm install scrollto-element --save
+// or
+yarn add scrollto-element
+```
+
 # Usage
 
 ```javascript
+const UrlScheme = require('url-scheme')
+const CancelToken = UrlScheme.CancelToken
+// or ES2015+
+import UrlScheme, { CancelToken } from 'url-scheme'
+```
+
+# Example
+
+```javascript
+import UrlScheme, { CancelToken } from 'url-scheme'
+
+let CancelToken = UrlScheme.CancelToken
+let source = CancelToken.source()
+
 new UrlScheme({
-  url: 'CUSTOMSCHEME://foo/bar?baz=true',
+  url: 'FooScheme://foo/bar?baz=true',
   query: {
-    biz: 'String',
+    biz: 'foobar',
     boo: [1, 2, 3]
   },
-  param: 'biz_callback',
-  prefix: 'CustomGlobalFunction',
-  timeout: 20000,
+  param: 'callbackName', // default is callback
+  prefix: 'callbackPrefix', // default is __jsonp
   beforeSend ({ schemeUrl, jsonpId }) {
     console.log(schemeUrl, jsonpId)
-  }
+  },
+  timeout: 20000, // default is 60000
+  cancelToken: source.token
 })
   .then(res => console.log(res))
-  .catch(err => console.error(err))
+  .catch(err => {
+    if (UrlScheme.isCancel(err)) {
+      return console.log(err.message || 'It\'s been canceled!')
+    }
+    console.error(err)
+  })
 
-window.CustomGlobalFunction1492871429491({ foo: 'bar' })
+// Native execute script
+window.callbackPrefix1492871429491({ foo: 'bar' })
+// or cancel the request
+source.cancel('No reason')
+```
+
+# Defaults
+
+You can specify defaults options that will be applied to every request.
+
+```javascript
+UrlScheme.scheme = 'myscheme'
+UrlScheme.timeout = 20000
+
+// then you can create UrlScheme without specify the scheme
+new UrlScheme({ url: 'foo/bar?baz=true' })
 ```
