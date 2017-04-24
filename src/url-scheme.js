@@ -115,7 +115,9 @@ class UrlScheme {
       : `${scheme}://${url.slice(0, qIndex + 1)}${queryString}`
 
     const promise = init.call(this, {
-      beforeSend, cancelToken, timeout
+      beforeSend,
+      cancelToken,
+      timeout: this.timeout
     })
 
     return promise
