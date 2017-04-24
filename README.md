@@ -5,9 +5,9 @@ A promisified url schemes creator for communication between webview & native
 # Install
 
 ```bash
-npm install scrollto-element --save
+npm install url-scheme --save
 // or
-yarn add scrollto-element
+yarn add url-scheme
 ```
 
 # Usage
@@ -65,4 +65,5 @@ UrlScheme.timeout = 20000
 
 // then you can create UrlScheme without specify the scheme
 new UrlScheme({ url: 'foo/bar?baz=true' })
+// myscheme://foo/bar?baz=true
 ```
