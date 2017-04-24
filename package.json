@@ -8,7 +8,7 @@
     "clean": "rimraf dist/*",
     "build:dev": "webpack -d --config webpack.config.js",
     "build:prod": "webpack -p --config webpack.config.js",
-    "lint": "standard src/*.js",
+    "lint": "standard --parser babel-eslint src/*.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "precommit": "npm run lint",
     "build": "npm run clean && npm run build:prod",
