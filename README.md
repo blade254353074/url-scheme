@@ -1,5 +1,8 @@
 # url-scheme
 
+[![Build Status](https://travis-ci.org/blade254353074/url-scheme.svg?branch=master)](https://travis-ci.org/blade254353074/url-scheme.svg?branch=master)
+[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
+
 A promisified url schemes creator for communication between webview & native
 
 # Install
@@ -67,3 +70,7 @@ UrlScheme.timeout = 20000
 new UrlScheme({ url: 'foo/bar?baz=true' })
 // myscheme://foo/bar?baz=true
 ```
+
+# License
+
+[MIT](https://github.com/blade254353074/url-scheme/blob/master/LICENSE)
