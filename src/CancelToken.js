@@ -1,12 +1,6 @@
-function Cancel (message) {
-  this.message = message
-}
-Cancel.prototype.toString = function toString () {
-  return 'Cancel' + (this.message ? `: ${this.message}` : '')
-}
-Cancel.prototype.__CANCEL__ = true
+import Cancel from './Cancel'
 
-export default class CancelToken {
+class CancelToken {
   static source () {
     let cancel
     const token = new CancelToken(function (c) {
@@ -33,3 +27,5 @@ export default class CancelToken {
     })
   }
 }
+
+export default CancelToken
