@@ -9,7 +9,7 @@
     "build:dev": "webpack -d --config webpack.config.js",
     "build:prod": "webpack -p --config webpack.config.js",
     "lint": "standard --parser babel-eslint src/*.js",
-    "test": "jest --coverage",
+    "test": "jest --coverage && codecov",
     "precommit": "npm run lint",
     "build": "npm run lint && npm run clean && npm run build:prod",
     "prepublish": "npm run build"
@@ -29,6 +29,10 @@
     "url": "https://github.com/blade254353074/url-scheme/issues"
   },
   "homepage": "https://github.com/blade254353074/url-scheme#readme",
+  "jest": {
+    "coverageDirectory": "./coverage/",
+    "collectCoverage": true
+  },
   "dependencies": {
     "qs": "^6.4.0"
   },
@@ -38,6 +42,7 @@
     "babel-loader": "^7.0.0",
     "babel-preset-es2015": "^6.24.0",
     "babel-preset-stage-2": "^6.24.1",
+    "codecov": "^2.1.0",
     "husky": "^0.13.3",
     "jest": "^19.0.2",
     "jsdom": "^10.0.0",
