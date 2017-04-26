@@ -107,13 +107,9 @@ class UrlScheme {
 
     const queryString = qs.stringify(query)
 
-    if (!isPositiveNum(timeout)) {
-      this.timeout = !(isPositiveNum(defaults.timeout))
-        ? 60000
-        : +defaults.timeout
-    } else {
-      this.timeout = timeout
-    }
+    this.timeout = isPositiveNum(timeout)
+      ? timeout
+      : defaults.timeout
 
     this.schemeUrl = urlHasScheme
       ? `${scheme}${url.slice(scheme.length, qIndex + 1)}${queryString}`
