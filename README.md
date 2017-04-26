@@ -41,7 +41,7 @@ new UrlScheme({
   beforeSend ({ schemeUrl, jsonpId }) {
     console.log(schemeUrl, jsonpId)
   },
-  timeout: 20000, // default is 60000
+  timeout: 20000, // default is 60000, 0 means never timeout
   cancelToken: source.token
 })
   .then(res => console.log(res))

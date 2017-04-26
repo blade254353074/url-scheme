@@ -1,6 +1,6 @@
 {
   "name": "url-scheme",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A promisified url schemes creator for communication between webview & native",
   "main": "dist/url-scheme.js",
   "module": "src/url-scheme.js",
