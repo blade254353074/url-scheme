@@ -21,12 +21,14 @@ function init ({ beforeSend, cancelToken, timeout }) {
       })
     }
 
-    this.timer = setTimeout(function () {
-      const err = new Error('URL Scheme request timeout')
-      err.type = 'timeout'
-      cleanup()
-      reject(err)
-    }, timeout)
+    if (timeout > 0) {
+      this.timer = setTimeout(function () {
+        const err = new Error('URL Scheme request timeout.')
+        err.type = 'timeout'
+        cleanup()
+        reject(err)
+      }, timeout)
+    }
 
     window[jsonpId] = function (response) {
       cleanup()
@@ -72,8 +74,11 @@ class UrlScheme {
     cancelToken,
     name, timeout, beforeSend
   }) {
-    if (!url || typeof url !== 'string') {
-      throw new TypeError('url string is required')
+    if (typeof url !== 'string') {
+      throw new TypeError('url must be a string.')
+    }
+    if (!url) {
+      throw new Error('url cannot be empty string.')
     }
     if (query != null && typeof query !== 'object') {
       throw new TypeError('query must be an object.')
@@ -86,7 +91,7 @@ class UrlScheme {
     const urlHasScheme = url.indexOf(':') > 0
     const hasDefaultScheme = defaults.scheme != null
     if (!urlHasScheme && !hasDefaultScheme) {
-      throw new Error('scheme in url parameter or UrlScheme.defaults.scheme is required')
+      throw new Error('scheme in url parameter or UrlScheme.defaults.scheme is required.')
     }
     let scheme = urlHasScheme ? url.split(':')[0] : defaults.scheme
     scheme = `${scheme}`.toLowerCase()
@@ -95,9 +100,9 @@ class UrlScheme {
     const hasQueryString = qIndex > -1
     query = hasQueryString
       ? Object.assign(qs.parse(url.substring(qIndex + 1)), query)
-      : query
+      : query || {}
 
-    if (param in query) console.warn(`Param \`${param}\` override the same key in search query`)
+    if (param in query) console.warn(`Param \`${param}\` override the same key in search query.`)
     this.jsonpId = query[param] = name || `${prefix}${count++}` // jsonp id
 
     const queryString = qs.stringify(query)
