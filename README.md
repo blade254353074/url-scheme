@@ -1,8 +1,10 @@
 # url-scheme
 
 [![npm version](https://badge.fury.io/js/url-scheme.svg)](https://www.npmjs.com/package/url-scheme)
-[![Build Status](https://travis-ci.org/blade254353074/url-scheme.svg?branch=master)](https://travis-ci.org/blade254353074/url-scheme.svg?branch=master)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
+[![Build Status](https://travis-ci.org/blade254353074/url-scheme.svg?branch=master)](https://travis-ci.org/blade254353074/url-scheme.svg?branch=master)
+[![codecov](https://codecov.io/gh/blade254353074/url-scheme/branch/master/graph/badge.svg)](https://codecov.io/gh/blade254353074/url-scheme)
+
 
 A promisified url schemes creator for communication between webview & native
 
