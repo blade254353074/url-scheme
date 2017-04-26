@@ -9,7 +9,7 @@
     "build:dev": "webpack -d --config webpack.config.js",
     "build:prod": "webpack -p --config webpack.config.js",
     "lint": "standard --parser babel-eslint src/*.js",
-    "test": "jest",
+    "test": "jest --coverage",
     "precommit": "npm run lint",
     "build": "npm run lint && npm run clean && npm run build:prod",
     "prepublish": "npm run build"
