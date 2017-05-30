@@ -20,9 +20,11 @@
     "url": "git+https://github.com/blade254353074/url-scheme.git"
   },
   "keywords": [
+    "scheme",
     "url scheme",
-    "webview",
-    "promise"
+    "scheme request",
+    "promise",
+    "webview"
   ],
   "author": "blade254353074 <blade254353074@hotmail.com> (https://github.com/blade254353074)",
   "license": "MIT",

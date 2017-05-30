@@ -72,9 +72,15 @@ class UrlScheme {
       ? timeout
       : defaults.timeout
 
-    this.schemeUrl = urlHasScheme
-      ? `${scheme}${url.slice(scheme.length, qIndex + 1)}${queryString}`
-      : `${scheme}://${url.slice(0, qIndex + 1)}${queryString}`
+    if (urlHasScheme) {
+      if (hasQueryString) {
+        this.schemeUrl = `${scheme}${url.slice(scheme.length, qIndex + 1)}${queryString}`
+      } else {
+        this.schemeUrl = `${scheme}${url.slice(scheme.length)}?${queryString}`
+      }
+    } else {
+      this.schemeUrl = `${scheme}://${url.slice(0, qIndex + 1)}${queryString}`
+    }
 
     const promise = this.init({
       beforeSend,

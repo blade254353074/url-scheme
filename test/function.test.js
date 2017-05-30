@@ -108,19 +108,33 @@ describe('Cover CancelToken.js & Cancel.js other code', () => {
 })
 
 describe('Main function checking', () => {
-  test('default callback key of querystring and jsonp name is right', () => {
-    new UrlScheme({
+  test('default callback key of querystring and jsonp name is right', async () => {
+    expect.assertions(2)
+    await new UrlScheme({
       url: 'foo://bar?foo=1&bar[]=first&bar[]=second&bar[]=third',
       beforeSend ({ schemeUrl, jsonpId }) {
         const query = parse(schemeUrl.split('?')[1])
         expect(query).toHaveProperty('callback', jsonpId)
         expect(jsonpId).toMatch(/__jsonp/)
+        global[jsonpId]('DONE')
       }
     })
   })
 
-  test('Scheme url composing work fine', () => {
-    new UrlScheme({
+  test('Scheme url composing work fine 1', async () => {
+    expect.assertions(1)
+    await new UrlScheme({
+      url: 'foo://bar',
+      beforeSend ({ schemeUrl, jsonpId }) {
+        expect(schemeUrl).toBe(`foo://bar?callback=${jsonpId}`)
+        global[jsonpId]('DONE')
+      }
+    })
+  })
+
+  test('Scheme url composing work fine 2', async () => {
+    expect.assertions(1)
+    await new UrlScheme({
       url: 'foo://bar?foo=1&bar[]=first&bar[]=second&bar[]=third',
       query: {
         biz: {
@@ -143,6 +157,7 @@ describe('Main function checking', () => {
             },
             jsonpId
           })
+        global[jsonpId]('DONE')
       }
     })
   })
