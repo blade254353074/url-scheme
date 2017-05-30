@@ -149,7 +149,7 @@ describe('Main function checking', () => {
 
   test('jsonp callback works fine', async () => {
     expect.assertions(1)
-    let result = {
+    const result = {
       foo: 'bar',
       baz: true,
       biz: [1, 2, 3],
@@ -170,7 +170,7 @@ describe('Main function checking', () => {
 
   test('expect json obj when calling jsonp with JSON string', async () => {
     expect.assertions(1)
-    let result = {
+    const result = {
       foo: 'bar',
       baz: true,
       biz: [1, 2, 3],
@@ -185,6 +185,47 @@ describe('Main function checking', () => {
         }
       })
       expect(res).toMatchObject(result)
+    } catch (e) { }
+  })
+
+  test('expect string when calling jsonp with BROKEN JSON string', async () => {
+    expect.assertions(1)
+    const brokenJson = '{foo:bar}'
+    try {
+      const res = await new UrlScheme({
+        url: 'foo://bar',
+        beforeSend (opt) {
+          global[opt.jsonpId](brokenJson)
+        }
+      })
+      expect(res).toBe(brokenJson)
+    } catch (e) { }
+  })
+
+  test('expect itself when calling jsonp with non-string', async () => {
+    expect.assertions(1)
+    const notString = true
+    try {
+      const res = await new UrlScheme({
+        url: 'foo://bar',
+        beforeSend (opt) {
+          global[opt.jsonpId](notString)
+        }
+      })
+      expect(res).toBe(notString)
+    } catch (e) { }
+  })
+
+  test('no result when calling jsonp with null', async () => {
+    expect.assertions(1)
+    try {
+      const res = await new UrlScheme({
+        url: 'foo://bar',
+        beforeSend (opt) {
+          global[opt.jsonpId](null)
+        }
+      })
+      expect(res).toBe(undefined)
     } catch (e) { }
   })
 })
