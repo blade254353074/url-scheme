@@ -30,10 +30,10 @@ class UrlScheme {
   }
 
   constructor ({
-    url, query,
-    param = 'callback', prefix = '__jsonp',
-    cancelToken,
-    name, timeout, beforeSend
+    url, query, cancelToken,
+    name, timeout, beforeSend,
+    param = 'callback',
+    prefix = '__jsonp'
   }) {
     if (typeof url !== 'string') {
       throw new TypeError('url must be a string.')
@@ -86,11 +86,7 @@ class UrlScheme {
   }
 
   init ({ beforeSend, cancelToken, timeout }) {
-    const {
-      jsonpId,
-      schemeUrl,
-      cleanup
-    } = this
+    const { jsonpId, schemeUrl, cleanup } = this
 
     return new Promise((resolve, reject) => {
       if (cancelToken) {
