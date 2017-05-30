@@ -10,45 +10,6 @@ function isPositiveNum (num) {
   return !isNaN(num) && num >= 0
 }
 
-function init ({ beforeSend, cancelToken, timeout }) {
-  const { jsonpId, schemeUrl, cleanup } = this
-
-  return new Promise((resolve, reject) => {
-    if (cancelToken) {
-      cancelToken.promise.then(function onCanceled (cancel) {
-        cleanup()
-        reject(cancel)
-      })
-    }
-
-    if (timeout > 0) {
-      this.timer = setTimeout(function () {
-        const err = new Error('URL Scheme request timeout.')
-        err.type = 'timeout'
-        cleanup()
-        reject(err)
-      }, timeout)
-    }
-
-    window[jsonpId] = function (response) {
-      cleanup()
-      if (response == null) return resolve()
-      if (typeof response === 'string') {
-        try {
-          resolve(JSON.parse(response))
-        } catch (err) {
-          resolve(response)
-        }
-      } else {
-        resolve(response)
-      }
-    }
-
-    if (typeof beforeSend === 'function') beforeSend({ schemeUrl, jsonpId })
-    window.location = schemeUrl
-  })
-}
-
 class UrlScheme {
   static defaults = {
     scheme: null,
@@ -115,13 +76,70 @@ class UrlScheme {
       ? `${scheme}${url.slice(scheme.length, qIndex + 1)}${queryString}`
       : `${scheme}://${url.slice(0, qIndex + 1)}${queryString}`
 
-    const promise = init.call(this, {
+    const promise = this.init({
       beforeSend,
       cancelToken,
       timeout: this.timeout
     })
 
     return promise
+  }
+
+  init ({ beforeSend, cancelToken, timeout }) {
+    const {
+      jsonpId,
+      schemeUrl,
+      cleanup
+    } = this
+
+    return new Promise((resolve, reject) => {
+      if (cancelToken) {
+        cancelToken.promise.then(function onCanceled (cancel) {
+          cleanup()
+          reject(cancel)
+        })
+      }
+
+      if (timeout > 0) {
+        this.timer = setTimeout(function () {
+          const err = new Error('URL Scheme request timeout.')
+          err.type = 'timeout'
+          cleanup()
+          reject(err)
+        }, timeout)
+      }
+
+      window[jsonpId] = function (response) {
+        cleanup()
+        if (response == null) return resolve()
+        if (typeof response === 'string') {
+          try {
+            resolve(JSON.parse(response))
+          } catch (err) {
+            resolve(response)
+          }
+        } else {
+          resolve(response)
+        }
+      }
+
+      if (typeof beforeSend === 'function') {
+        beforeSend({ schemeUrl, jsonpId })
+      }
+      this.request(schemeUrl)
+    })
+  }
+
+  request (src) {
+    let iframe = document.createElement('iframe')
+    iframe.setAttribute('style', 'display:none')
+    iframe.setAttribute('width', '0')
+    iframe.setAttribute('height', '0')
+    iframe.setAttribute('tabindex', '-1')
+    iframe.setAttribute('src', src)
+    document.documentElement.appendChild(iframe)
+    iframe.parentNode.removeChild(iframe)
+    iframe = null
   }
 
   cleanup = _ => {
