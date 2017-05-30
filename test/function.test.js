@@ -49,7 +49,7 @@ describe('Timeout checking', () => {
 })
 
 describe('CancelToken test cases', () => {
-  test('CancelToken is work fine', () => {
+  test('CancelToken module is work fine', () => {
     const source = CancelToken.source()
 
     expect(source).toEqual({
@@ -65,6 +65,23 @@ describe('CancelToken test cases', () => {
         expect(reason.message).toBe('foo')
         expect(reason.toString()).toBe('Cancel: foo')
       })
+  })
+  test('Using cancelToken in UrlScheme', async () => {
+    expect.assertions(3)
+    const source = CancelToken.source()
+    try {
+      await new UrlScheme({
+        url: 'foo://bar',
+        cancelToken: source.token,
+        beforeSend () {
+          source.cancel('reason')
+        }
+      })
+    } catch (reason) {
+      expect(UrlScheme.isCancel(reason)).toBe(true)
+      expect(reason.message).toBe('reason')
+      expect(reason.toString()).toBe('Cancel: reason')
+    }
   })
 })
 
@@ -145,6 +162,26 @@ describe('Main function checking', () => {
           const callbackFunc = global[opt.jsonpId]
           expect(callbackFunc).toBe(Function)
           callbackFunc(result)
+        }
+      })
+      expect(res).toMatchObject(result)
+    } catch (e) { }
+  })
+
+  test('expect json obj when calling jsonp with JSON string', async () => {
+    expect.assertions(1)
+    let result = {
+      foo: 'bar',
+      baz: true,
+      biz: [1, 2, 3],
+      bazinga: 'Bazinga!'
+    }
+    try {
+      const res = await new UrlScheme({
+        url: 'foo://bar',
+        beforeSend (opt) {
+          expect(JSON.stringify(result)).toBe(String)
+          global[opt.jsonpId](JSON.stringify(result))
         }
       })
       expect(res).toMatchObject(result)
