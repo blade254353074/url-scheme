@@ -66,8 +66,8 @@ source.cancel('No reason')
 You can specify defaults options that will be applied to every request.
 
 ```javascript
-UrlScheme.scheme = 'myscheme'
-UrlScheme.timeout = 20000
+UrlScheme.defaults.scheme = 'myscheme'
+UrlScheme.defaults.timeout = 20000
 
 // then you can create UrlScheme without specify the scheme
 new UrlScheme({ url: 'foo/bar?baz=true' })
