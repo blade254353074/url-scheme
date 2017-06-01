@@ -3,7 +3,6 @@
   "version": "1.0.3",
   "description": "A promisified url schemes creator for communication between webview & native",
   "main": "dist/url-scheme.js",
-  "module": "src/url-scheme.js",
   "scripts": {
     "clean": "rimraf dist/*",
     "build:dev": "webpack -d --config webpack.config.js",

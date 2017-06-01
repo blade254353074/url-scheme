@@ -2,7 +2,7 @@
 
 [![npm version](https://badge.fury.io/js/url-scheme.svg)](https://www.npmjs.com/package/url-scheme)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
-[![Build Status](https://travis-ci.org/blade254353074/url-scheme.svg?branch=master)](https://travis-ci.org/blade254353074/url-scheme.svg?branch=master)
+[![Build Status](https://travis-ci.org/blade254353074/url-scheme.svg?branch=master)](https://travis-ci.org/blade254353074/url-scheme)
 [![codecov](https://codecov.io/gh/blade254353074/url-scheme/branch/master/graph/badge.svg)](https://codecov.io/gh/blade254353074/url-scheme)
 
 
