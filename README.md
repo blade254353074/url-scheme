@@ -27,6 +27,18 @@ import UrlScheme, { CancelToken } from 'url-scheme'
 
 # Example
 
+Basic usage:
+
+```javascript
+// Only url param is required.
+// Others are optional.
+new UrlScheme({ url: 'foo://bar?baz=true' })
+  .then(res => console.log(res))
+  .catch(err => console.error(err))
+```
+
+Advanced usage:
+
 ```javascript
 import UrlScheme, { CancelToken } from 'url-scheme'
 
@@ -44,7 +56,7 @@ new UrlScheme({
   beforeSend ({ schemeUrl, jsonpId }) {
     console.log(schemeUrl, jsonpId)
   },
-  timeout: 20000, // default is 60000, 0 means never timeout
+  timeout: 20000, // default is 0, 0/Infinity means never timeout
   cancelToken: source.token
 })
   .then(res => console.log(res))

@@ -1,13 +1,12 @@
 import qs from 'qs'
 import CancelToken from './CancelToken'
 
-let _timeout = 60000
+let _timeout = 0
 let count = +new Date()
 function noop () {}
 
-function isPositiveNum (num) {
-  num = Number(num)
-  return !isNaN(num) && num >= 0
+function isNonNegative (value) {
+  return value != null && Number(value) >= 0
 }
 
 class UrlScheme {
@@ -17,8 +16,8 @@ class UrlScheme {
       return _timeout
     },
     set timeout (newValue) {
-      if (!isPositiveNum(newValue)) {
-        throw new TypeError('timeout must be a positive number.')
+      if (!isNonNegative(newValue)) {
+        throw new TypeError('timeout must be a non-negative number.')
       }
       _timeout = newValue
     }
@@ -44,12 +43,15 @@ class UrlScheme {
     if (query != null && typeof query !== 'object') {
       throw new TypeError('query must be an object.')
     }
+    if (timeout != null && !isNonNegative(timeout)) {
+      throw new TypeError('timeout must be a non-negative number.')
+    }
     if (beforeSend && typeof beforeSend !== 'function') {
       throw new TypeError('beforeSend must be a function.')
     }
 
     const { defaults } = UrlScheme
-    const urlHasScheme = url.indexOf(':') > 0
+    const urlHasScheme = url.indexOf('://') > 0
     const hasDefaultScheme = defaults.scheme != null
     if (!urlHasScheme && !hasDefaultScheme) {
       throw new Error('scheme in url parameter or UrlScheme.defaults.scheme is required.')
@@ -68,9 +70,7 @@ class UrlScheme {
 
     const queryString = qs.stringify(query)
 
-    this.timeout = isPositiveNum(timeout)
-      ? timeout
-      : defaults.timeout
+    this.timeout = isNonNegative(timeout) ? timeout : defaults.timeout
 
     if (urlHasScheme) {
       if (hasQueryString) {
