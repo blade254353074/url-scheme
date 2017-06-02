@@ -37,6 +37,25 @@ new UrlScheme({ url: 'foo://bar?baz=true' })
   .catch(err => console.error(err))
 ```
 
+Native can get the callback function name from
+webview scheme request **url's querystring**, like this:
+
+`foo://bar?baz=true&callback=__jsonp1492871429491`
+
+Then native can execute(eval) in the webview with script:
+
+```Swift
+// UIWebView
+webView.stringByEvaluatingJavaScript(from: "__jsonp1492871429491({ foo: 'bar' })")
+```
+
+After that, webview will trigger `then` callback:
+
+```javascript
+// then(res => console.log(res))
+// > Object {foo: "bar"}
+```
+
 Advanced usage:
 
 ```javascript
